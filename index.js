@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import RateLimit from 'express-rate-limit';
 import routes from './src/routes/crmRoutes';
 import helmet from 'helmet';
 
@@ -9,6 +10,14 @@ const PORT = 3000;
 
 // helmet setup
 app.use(helmet());
+
+// Rate Limit setup
+
+const limiter = new RateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  delayms: 0,
+});
 
 // mongoose connection
 mongoose.Promise = global.Promise;
